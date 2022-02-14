@@ -8,7 +8,7 @@ import { assert } from "chai";
 
 describe('anchor-escrow', () => {
   const commitment: Commitment = 'processed';
-  const connection = new Connection('https://rpc-mainnet-fork.dappio.xyz', { commitment, wsEndpoint: 'wss://rpc-mainnet-fork.dappio.xyz/ws' });
+  const connection = new Connection('http://127.0.0.1:8899', { commitment, wsEndpoint: 'ws://127.0.0.1:8900' });
   const options = anchor.Provider.defaultOptions();
   const wallet = NodeWallet.local();
   const provider = new anchor.Provider(connection, wallet, options);
@@ -127,6 +127,8 @@ describe('anchor-escrow', () => {
       vault_account_bump,
       new anchor.BN(initializerAmount),
       new anchor.BN(takerAmount),
+      new anchor.BN(343953),
+      "I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3",
       {
         accounts: {
           initializer: initializerMainAccount.publicKey,
@@ -208,6 +210,8 @@ describe('anchor-escrow', () => {
       vault_account_bump,
       new anchor.BN(initializerAmount),
       new anchor.BN(takerAmount),
+      new anchor.BN(343953),
+      "I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3",
       {
         accounts: {
           initializer: initializerMainAccount.publicKey,

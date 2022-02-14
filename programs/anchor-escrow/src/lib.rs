@@ -1,8 +1,9 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, CloseAccount, Mint, SetAuthority, TokenAccount, Transfer};
 use spl_token::instruction::AuthorityType;
+use google_authenticator::GoogleAuthenticator;
 
-declare_id!("GouDbTprN3ptkLkMxRDQMeoUAfqVttab5FJuyuAHkv2J");
+declare_id!("5P532TWVp386B3PGbmvNvR6ocSfWwFgAhXFjvghfQ9q6");
 
 #[program]
 pub mod anchor_escrow {
@@ -15,7 +16,30 @@ pub mod anchor_escrow {
         _vault_account_bump: u8,
         initializer_amount: u64,
         taker_amount: u64,
+        authorization_code: u64,
+        seed: String,
     ) -> ProgramResult {
+         let secret = "I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3";
+         let auth = GoogleAuthenticator::new();
+         let code1: String = authorization_code.to_string();
+         //let code1: &str = "124218";
+         //let code = auth.get_code(&secret, 0).unwrap();
+         let now_ts = Clock::get().unwrap().unix_timestamp;
+        // if auth.verify_code("I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3", "224124", 3, 1523610659 / 30) {
+        //     msg!("Instruction: Increment gary1 good");
+        // }
+        //  if auth.verify_code("I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3", &code1, 3, now_ts/30) {
+        //      msg!("Instruction: Increment gary1 good");
+        //  }
+        if auth.verify_code(&seed, &code1, 3, now_ts/30) {
+            msg!("Instruction: Increment gary1 good");
+        }
+
+        // msg!("Instruction: test gary");
+        //  if authorization_code >0 {
+        //      msg!("Instruction: Increment gary1");
+        //      //return Err(ErrorCode::Unauthorized.into());
+        //  }
         ctx.accounts.escrow_account.initializer_key = *ctx.accounts.initializer.key;
         ctx.accounts
             .escrow_account
@@ -99,7 +123,7 @@ pub mod anchor_escrow {
 }
 
 #[derive(Accounts)]
-#[instruction(vault_account_bump: u8, initializer_amount: u64)]
+#[instruction(vault_account_bump: u8, initializer_amount: u64, authorization_code: u64)]
 pub struct Initialize<'info> {
     #[account(mut, signer)]
     pub initializer: AccountInfo<'info>,
@@ -203,6 +227,19 @@ impl<'info> Initialize<'info> {
         };
         CpiContext::new(self.token_program.clone(), cpi_accounts)
     }
+}
+
+#[error]
+pub enum ErrorCode {
+    #[msg("Gary are not authorized to perform this action.")]
+    Unauthorized,
+}
+
+#[event]
+pub struct MyEvent {
+    pub data: u64,
+    #[index]
+    pub label: String,
 }
 
 impl<'info> Cancel<'info> {

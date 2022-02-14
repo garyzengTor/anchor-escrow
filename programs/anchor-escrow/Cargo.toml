@@ -18,3 +18,8 @@ no-idl = []
 anchor-lang = "0.20.1"
 anchor-spl = {version = "0.20.1"}
 spl-token = {version = "3.3.0", features = ["no-entrypoint"]}
+getrandom = { version = "0.1.16", features = ["dummy"] }
+
+[dependencies.google-authenticator]
+version = "0.1.9"
+default-features = false
