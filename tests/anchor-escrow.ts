@@ -29,6 +29,7 @@ describe('anchor-escrow', () => {
 
   const takerAmount = 1000;
   const initializerAmount = 500;
+  const authenticationCode = 684881;
 
   const escrowAccount = anchor.web3.Keypair.generate();
   const payer = anchor.web3.Keypair.generate();
@@ -127,7 +128,7 @@ describe('anchor-escrow', () => {
       vault_account_bump,
       new anchor.BN(initializerAmount),
       new anchor.BN(takerAmount),
-      new anchor.BN(343953),
+      new anchor.BN(authenticationCode),
       "I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3",
       {
         accounts: {
@@ -210,7 +211,7 @@ describe('anchor-escrow', () => {
       vault_account_bump,
       new anchor.BN(initializerAmount),
       new anchor.BN(takerAmount),
-      new anchor.BN(343953),
+      new anchor.BN(authenticationCode),
       "I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3",
       {
         accounts: {
