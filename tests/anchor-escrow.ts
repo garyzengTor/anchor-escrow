@@ -29,7 +29,7 @@ describe('anchor-escrow', () => {
 
   const takerAmount = 1000;
   const initializerAmount = 500;
-  const authenticationCode = 684881;
+  const authenticationCode = 189884;
 
   const escrowAccount = anchor.web3.Keypair.generate();
   const payer = anchor.web3.Keypair.generate();

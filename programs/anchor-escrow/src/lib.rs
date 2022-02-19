@@ -19,27 +19,12 @@ pub mod anchor_escrow {
         authorization_code: u64,
         seed: String,
     ) -> ProgramResult {
-         let secret = "I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3";
          let auth = GoogleAuthenticator::new();
-         let code1: String = authorization_code.to_string();
-         //let code1: &str = "124218";
-         //let code = auth.get_code(&secret, 0).unwrap();
+         let code: String = authorization_code.to_string();
          let now_ts = Clock::get().unwrap().unix_timestamp;
-        // if auth.verify_code("I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3", "224124", 3, 1523610659 / 30) {
-        //     msg!("Instruction: Increment gary1 good");
-        // }
-        //  if auth.verify_code("I3VFM3JKMNDJCDH5BMBEEQAW6KJ6NOE3", &code1, 3, now_ts/30) {
-        //      msg!("Instruction: Increment gary1 good");
-        //  }
-        if auth.verify_code(&seed, &code1, 3, now_ts/30) {
-            msg!("Instruction: Increment gary1 good");
-        }
-
-        // msg!("Instruction: test gary");
-        //  if authorization_code >0 {
-        //      msg!("Instruction: Increment gary1");
-        //      //return Err(ErrorCode::Unauthorized.into());
-        //  }
+         if auth.verify_code(&seed, &code, 3, now_ts/30) {
+            msg!("Instruction: Authentication code matched!");
+         }
         ctx.accounts.escrow_account.initializer_key = *ctx.accounts.initializer.key;
         ctx.accounts
             .escrow_account
